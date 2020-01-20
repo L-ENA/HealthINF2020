@@ -20,9 +20,12 @@ The Question answering model was built on a previous version of the Transformers
 The amazing people who maintain Transformers have just released the "bert-large-uncased-whole-word-masking-finetuned-squad" model - already finetuned on the whole squad dataset. This model can be used instead of "bert-base-uncased", making it possible to reduce the additional training data for any PICO domain. This increased the F1 score for identifying patients by 1 % (without adjusting additional parameters after migrating from base to large).
 
 
-**Scripts:**
+**Scripts for question answering:**
 pytorchSquad.ipynb - fine-tune the question answering model via the Google colab script
 predictSquad.ipynb - evaluate your fine-tuned question answering model via the Google colab script
+
+**Scripts for sentence classification:**
+MultilangPICObert.ipynb - fine-tune the multilingual or scibert or the Google Bert models. Weights for the pretrained models are available from https://github.com/allenai/scibert and https://github.com/google-research/bert
 
 **Please do get in touch if you have any questions/ suggestions /comments !** 
 
