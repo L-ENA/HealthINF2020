@@ -17,7 +17,7 @@ The Question answering model was built on a previous version of the Transformers
 
 **Changes after the conference paper was submitted:**
 
-The amazing people who maintain Transformers have just released the "bert-large-uncased-whole-word-masking-finetuned-squad" model - already finetuned on the whole squad dataset. This model can be used instead of "bert-base-uncased", making it possible to reduce the additional training data for any PICO domain. 
+The amazing people who maintain Transformers have just released the "bert-large-uncased-whole-word-masking-finetuned-squad" model - already finetuned on the whole squad dataset. This model can be used instead of "bert-base-uncased", making it possible to reduce the additional training data for any PICO domain. This increased the F1 score for identifying patients by 1 % (without adjusting additional parameters after migrating from base to large).
 
 
 **Scripts:**
