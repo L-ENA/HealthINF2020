@@ -15,9 +15,23 @@ Fine-tuning can be carried out via the provided Google Colaboraty notebooks (NB 
 
 The Question answering model was built on a previous version of the Transformers library. This library is constantly changing because its maintainers are very active, which means that errors during training could start showing up at any time. Therefore, all colab scripts have the option to import the library from my local fork. This means that the scripts should run - just not in the latest version. 
 
-**Changes after the conference paper was submitted:**
+**Changes after the conference paper was submitted: Question answering**
 
-The amazing people who maintain Transformers have just released the "bert-large-uncased-whole-word-masking-finetuned-squad" model - already finetuned on the whole squad dataset. This model can be used instead of "bert-base-uncased", making it possible to reduce the additional training data for any PICO domain. This increased the F1 score for identifying patients by 1 % (without adjusting additional parameters after migrating from base to large).
+The amazing people who maintain Transformers give access to manu pretrained models. 
+In general, the script now produces evaluation results for recall and precision, not only for the testing data as a whole, but also for each individual class (on a token level, it gives extra recall scores for sentences that contained a label, and for sentences that did not contain a PICO).
+
+New best scores for P class:
+
+Model: bert-base-uncased  Under-sampling dominant class: 40% deleted  F1 combined: 
+
+Pretrained model | Under-sampling dominant class | F1 combined | F1 P only | Recall combined | Recall P only
+--- | --- | ---| --- | --- | ---
+bert-base-uncased (from paper) | na | 87| 74 | na | na
+bert-base-uncased | 40% | 86.94| 79.55 | 87.6 | 81.77
+bert-large-uncased | 40% | **86.98**| **80.16** | **87.72** | **82.66**
+
+
+"bert-large-uncased-whole-word-masking-finetuned-squad" performed marginaly worse than bert-large-uncased as base model, possibly because it has already been fine-tuned on too much different data - see colab training file for more details
 
 
 **Scripts for question answering:**
