@@ -1,0 +1,1 @@
+These are the dataframes used for training, dev and evaluating the sentence classification model. They are based on data from https://github.com/jind11/PubMed-PICO-Detection
