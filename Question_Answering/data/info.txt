@@ -1,0 +1,1 @@
+These data only contain example .json files for training a question answering system to classify participants. Any other label, including the hierarchical sublabels, can be created with the ebmnlp source data and the makeInput.py file in the scripts folder.
