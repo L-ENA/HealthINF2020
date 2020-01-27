@@ -13,7 +13,7 @@ Ebm-NLP data: https://github.com/bepnye/EBM-NLP
 
 Fine-tuning can be carried out via the provided Google Colaboraty notebooks (NB enable GPU runtime for full training speed! And a Google account is needed in order to connect the Drive and save the weights). Please note that all other pre-processing (indicated by .py script), as well as conversion to Squad format, was carried out on a local machine.
 
-The Question answering model was built on a previous version of the Transformers library. This library is constantly changing because its maintainers are very active, which means that errors during training could start showing up at any time. Therefore, all colab scripts have the option to import the library from my local fork. This means that the scripts should run/ be reproducible - just not in the latest version of the Transformers library. 
+The Question Answering model was built on a previous version of the Transformers library. This library is constantly changing because its maintainers are very active, which means that errors during training could start showing up at any time. Therefore, all colab scripts have the option to import the library from my local fork. This means that the scripts should run/ be reproducible - just not in the latest version of the Transformers library. 
 
 **Changes after the conference paper was submitted: Question answering**
 
