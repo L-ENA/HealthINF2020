@@ -18,9 +18,9 @@ The Question answering model was built on a previous version of the Transformers
 **Changes after the conference paper was submitted: Question answering**
 
 The amazing people who maintain Transformers give access to many pretrained models: https://huggingface.co/transformers/pretrained_models.html 
-In general, the script now produces evaluation results for recall and precision, not only for the testing data as a whole, but also for each individual class (on a token level, it gives extra recall scores for sentences that contained a label, and for sentences that did not contain a PICO).
+In general, this script now produces evaluation results for recall and precision, not only for the testing data as a whole, but also for each individual class (on a token level, it gives extra recall scores for sentences that contained a label, and for sentences that did not contain a PICO, and for the "combined" version: all sentences in this set of testing data).
 
-New best scores for P class:
+New best scores for "P(opulation)" class data:
 
 
 Pretrained model | Under-sampling dominant class | F1 combined | F1 P only | Recall combined | Recall P only
