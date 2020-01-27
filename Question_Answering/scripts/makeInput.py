@@ -3,6 +3,8 @@
 Created on Fri Oct 11 11:09:13 2019
 
 @author: Lena Schmidt
+
+Script to convert ebm-nlp to squad format, and to mix it with existing squad domains. Change file paths, decide if you want to make training or testing data, and define the questions for each pico type before running this script.
 """
 
 import json
@@ -65,21 +67,21 @@ def span2text(start, end, idDict, context):
                      
            
 
-makeTest=False
+makeTest=False#false means that we make training data. true means testing data. difference: paths, and testing data are not sampled, and testing data can have more than 1 entity per sentence
 
-if makeTest:
-    span_fnames = glob("C:\\Users\\xf18155\\OneDrive - University of Bristol\\MyFiles-Migrated\\Documents\\Python Scripts\\pytorch\\ebm_nlp_2_00\\annotations\\aggregated\\hierarchical_labels\\participants\\test\\gold\\*")######for P extra spans
+if makeTest:#todo: change paths or have ebm-nlp in working directory. Make sure to give path to correct pico (path to P data entered now)
+    span_fnames = glob("ebm_nlp_2_00\\annotations\\aggregated\\hierarchical_labels\\participants\\test\\gold\\*")######for P extra spans
     
     print('Reading test documents...')
     
     
 else:    #train data
-    span_fnames = glob("C:\\Users\\xf18155\\OneDrive - University of Bristol\\MyFiles-Migrated\\Documents\\Python Scripts\\pytorch\\ebm_nlp_2_00\\annotations\\aggregated\\starting_spans\\participants\\train\\*")
+    span_fnames = glob("ebm_nlp_2_00\\annotations\\aggregated\\starting_spans\\participants\\train\\*")
     print('Reading train documents...')
-toks = glob("C:\\Users\\xf18155\\OneDrive - University of Bristol\\MyFiles-Migrated\\Documents\\Python Scripts\\pytorch\\ebm_nlp_2_00\\documents\\*.tokens")
+toks = glob("ebm_nlp_2_00\\documents\\*.tokens")#all token files in a list
 
 tok_fnames=[]
-base="C:\\Users\\xf18155\\OneDrive - University of Bristol\\MyFiles-Migrated\\Documents\\Python Scripts\\pytorch\\ebm_nlp_2_00\\documents\\"
+base="ebm_nlp_2_00\\documents\\"
 
 for fname in span_fnames:
     pmid= os.path.splitext(os.path.basename(fname))[0].split('.')[0]#get pubmed id, as in nye github repo
@@ -91,19 +93,25 @@ inputs=list(zip(span_fnames, tok_fnames))#list of corresponding tuples of source
 
     
     
-def addAbsData(spanFile, tokFile, starting_spans=True, spanID=1, undersample_frac = 0.3):
+def addAbsData(spanFile, tokFile, starting_spans=True, spanID=1, undersample_frac = 0.3, pico_type = "P"):
     
-    #starting_spans: if the script should use the binary annotations, or the herarchical
-    #spanID: the id tht is considered as the positive case. 1 in case of starting_spans, and 1 to x inc ase of the herarchical labels
+    #starting_spans: if the script should use the binary annotations, or the herarchical annotations
+    #spanID: the id tht is considered as the positive case. 1 in case of starting_spans, and 1 to x in case of the herarchical labels. see ebm-nlp documentation for more info
     #undersample_frac: this many percent of sentences will be randomly deleted if they dont contain a positive example, e.g. 30% if the fraction is 0.3. Deletions only happen in training data, not in testing data!
     
-    #quests=['Which intervention did the patients receive?','Which intervention did the participants receive?', 'What was the intervention?', 'What did the patients receive?', 'What did the participants receive?', 'What was the intervention given to the participants?']
-    #quests=['Who was treated?','What were the criteria for enrollment?','What were the inclusion criteria?','Who was enrolled in the study?','What were participants diagnosed with?', 'Which participants took part in the study?']
-    #quests=['Which outcomes were measured?','What did the study measure?','Which endpoints were measured?', 'What were the measured outcomes?', 'What were the measured endpoints?', 'What were the primary or secondary endpoints?', 'What were the primary or secondary outcomes?']
-    ###condition is key 4
-    if starting_spans:#means that we lookat the file that has starting spans (only abels 0 and 1)
-        quests=['Who was treated?','What were the criteria for enrolment?','What were the inclusion criteria?','Who was enrolled in the study?','What were participants diagnosed with?', 'Which participants took part in the study?']
-    else:#get the hierarchical labels
+    
+    #in the following you see different variations of pico questions. make sure to use the question that matches your pico datatype (see parameters starting_spas and pico_type) 
+   
+    
+    if starting_spans:#means that we lookat the file that has starting spans (only labels 0 and 1, for each pico type in different folders, defined above)
+        if pico_type == "P":
+            quests=['Who was treated?','What were the criteria for enrolment?','What were the inclusion criteria?','Who was enrolled in the study?','What were participants diagnosed with?', 'Which participants took part in the study?']
+        elif pico_type == "I":
+            quests=['Which intervention did the patients receive?','Which intervention did the participants receive?', 'What was the intervention?', 'What did the patients receive?', 'What did the participants receive?', 'What was the intervention given to the participants?']
+        elif pico_type == "O":
+            quests=['Which outcomes were measured?','What did the study measure?','Which endpoints were measured?', 'What were the measured outcomes?', 'What were the measured endpoints?', 'What were the primary or secondary endpoints?', 'What were the primary or secondary outcomes?']
+    
+    else:#get the hierarchical labels, pre-programmed here for P labels
         if spanID==4:
             quests = ['Which condition did the participants have?', 'Patients with which medical conditions were included?', 'What was the medical condition?', 'What was the condition?']
         
@@ -142,7 +150,7 @@ def addAbsData(spanFile, tokFile, starting_spans=True, spanID=1, undersample_fra
     end_ids=[]
     for index, word in enumerate(someTok):
         
-        #######indexes of start spans are one too early
+        
         text = '{} {}'.format(text,word).strip() # restore full sentences, as bert takes whole context sentences and does splitting itself
         id_to_sent[index]=counter#set sentence number for this id    
         id_to_word[index]=word
@@ -188,7 +196,7 @@ def addAbsData(spanFile, tokFile, starting_spans=True, spanID=1, undersample_fra
     
              
                     
-    to_delete = []
+    to_delete = []#for getting rid of undersampled entries later. 
     
     for index, paragraph in enumerate(domainDict['paragraphs']):
         qaDict={'question':quest, 'id':'{}{}'.format(random.random(), random.random()), 'answers':[], 'is_impossible':False} 
@@ -202,7 +210,7 @@ def addAbsData(spanFile, tokFile, starting_spans=True, spanID=1, undersample_fra
                 
                 if makeTest:#append list of posible answers
                     qaDict['answers'].append({'text': txt, 'answer_start': spanStart})  ### multiple answers
-                else:#at training, only one anser can be given per span
+                else:#at training, only one anser can be given per span, so we overwrite and keep latest
                     qaDict['answers']=[{'text': txt, 'answer_start': spanStart}]
 #                print('---')
 
@@ -211,7 +219,7 @@ def addAbsData(spanFile, tokFile, starting_spans=True, spanID=1, undersample_fra
             qaDict['is_impossible'] = True
             qaDict['plausible_answers']= [
                 {
-                  "text": ' '.join(paragraph['context'].split(' ')[:2]),#first 2 words
+                  "text": ' '.join(paragraph['context'].split(' ')[:2]),#first 2 words, only for convenience because dataset has no plausible answers
                   "answer_start": 0
                 }
               ]
@@ -227,19 +235,19 @@ def addAbsData(spanFile, tokFile, starting_spans=True, spanID=1, undersample_fra
         #print(len(paragraph['quas']))     
         #print(qaDict['answers'])
 
-    for index in sorted(to_delete, reverse=True):#do the actual undersampling by deleting the randomly selected sentences that had no answer
+    for index in sorted(to_delete, reverse=True):#do the actual undersampling by deleting the randomly selected sentences that had no answer. reverse sorting to avoid confusion with self-updating indices
         del domainDict['paragraphs'][index]
     #print(domainDict)
     return domainDict
     
 
-#########################get files
-versionString="v2.0"
+#########################get files, loop and create data
+versionString="v2.0"#setup the json file dict
 data = {'version': versionString, 'data': []}#to have possibility of pure new squad training data
 
 
 
-for inp in tqdm(inputs):
+for inp in tqdm(inputs):#loop 
 #for inp in inputs:
 #    print(inp)
     spf=inp[0]#annotated span comes first in the data
@@ -254,35 +262,35 @@ for inp in tqdm(inputs):
     
   
 if makeTest:
-    with open('C:\\Users\\xf18155\\OneDrive - University of Bristol\\MyFiles-Migrated\\Documents\\Python Scripts\\data\\squad\\dev-v2.0.json', encoding='utf-8') as feedsjson:
+    with open('data\\squad\\dev-v2.0.json', encoding='utf-8') as feedsjson:#Original testing data!
         feeds = json.load(feedsjson)
         print(len(feeds['data']))
         try:
-            feeds['data']= random.sample(population=feeds['data'],k=0)
+            feeds['data']= random.sample(population=feeds['data'],k=0)#take n samples. usually none with testing data becasue evaluating original squad is not objective
         except:
             pass
         
         
-        feeds['data'] =feeds['data']+ data['data']
+        feeds['data'] =feeds['data']+ data['data']#add original plus new data into one dict
         print(len(feeds['data']))
         #shuffle(feeds['data'])  ###no need to shuffle the eval set
-        with open('C:\\Users\\xf18155\\OneDrive - University of Bristol\\MyFiles-Migrated\\Documents\\Python Scripts\\data\\squad\\smallTestSize.json', mode='w') as f:
+        with open('data\\squad\\smallTest.json', mode='w') as f:
             f.write(json.dumps(feeds, indent=2))
 else:        
 
-    with open('C:\\Users\\xf18155\\OneDrive - University of Bristol\\MyFiles-Migrated\\Documents\\Python Scripts\\data\\squad\\train-v2.0.json') as feedsjson:
+    with open('data\\squad\\train-v2.0.json') as feedsjson:
         feeds = json.load(feedsjson)
         try:
             print(len(feeds['data']))
-            feeds['data']= random.sample(population=feeds['data'],k=20)
+            feeds['data']= random.sample(population=feeds['data'],k=20)#take n original training domains
         except:
             pass
         
         
-        feeds['data'] =feeds['data']+ data['data']
+        feeds['data'] =feeds['data']+ data['data']#add original and new
         print(len(feeds['data']))
         shuffle(feeds['data'])  #shuffle to avoid having small/big gradients only with same data
         ############training data
-        with open('C:\\Users\\xf18155\\OneDrive - University of Bristol\\MyFiles-Migrated\\Documents\\Python Scripts\\data\\squad\\train_P.json', mode='w') as f:
+        with open('data\\squad\\train_P.json', mode='w') as f:
             f.write(json.dumps(feeds, indent=2))
         
