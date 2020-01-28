@@ -25,9 +25,10 @@ New best scores for "P(opulation)" class data:
 
 Pretrained model | Under-sampling dominant class | F1 combined | F1 P only | Recall combined | Recall P only
 --- | --- | ---| --- | --- | ---
-bert-base-uncased (from paper) | na | 87| 74 | na | na
+bert-base-uncased (from paper) | na | **87.1**| 74.21 | na | na
 bert-base-uncased | 40% | 86.94| 79.55 | 87.6 | 81.77
-bert-large-uncased | 40% | **86.98**| **80.16** | **87.72** | **82.66**
+bert-large-uncased | 40% | 86.98| **80.16** | **87.72** | **82.66**
+bert-large-uncased-whole-word-masking-finetuned-squad | 40% | 86.90| 78.91 | 87.59 | 81.24
 
 
 "bert-large-uncased-whole-word-masking-finetuned-squad" performed marginaly worse than bert-large-uncased as base model, possibly because it has already been fine-tuned on too much different data - see colab training file for more details
