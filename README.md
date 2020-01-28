@@ -31,7 +31,7 @@ bert-large-uncased | 40% | 86.98| **80.16** | **87.72** | **82.66**
 bert-large-uncased-whole-word-masking-finetuned-squad | 40% | 86.90| 78.91 | 87.59 | 81.24
 
 
-"bert-large-uncased-whole-word-masking-finetuned-squad" performed marginaly worse than bert-large-uncased as base model, possibly because it has already been fine-tuned on too much different data - see colab training file for more details
+"bert-large-uncased-whole-word-masking-finetuned-squad" is an already fine-tuned model based on bert-large. It was fine-tuned on the whole Sqad dataset, and is available as part of Transformers. I further fine-tuned it on the P-labelled data, but the final model performed marginaly worse than bert-large-uncased as base model, possibly because it has already been fine-tuned on too much different data that is not related to our target task here - see colab training file for more details incl. full scores.
 
 
 **Scripts for question answering:**
