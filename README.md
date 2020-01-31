@@ -39,15 +39,18 @@ bert-large-uncased-whole-word-masking-finetuned-squad | 40% | 86.90| 78.91 | 87.
 
 
 **Scripts for question answering:**
+
 pytorchSquad.ipynb - fine-tune the question answering model via the Google colab script
 predictSquad.ipynb - evaluate your fine-tuned question answering model via the Google colab script
 
 **Scripts for sentence classification:**
+
 MultilangPICObert.ipynb - fine-tune the multilingual or scibert or the Google Bert models. Weights for the pretrained models are available from https://github.com/allenai/scibert and https://github.com/google-research/bert
 
 **Additional graphs and figures related to the publication:**
 
 **Sentence classification visualisations and examples:**
+
 Examples for annotation probabilities in sentences that belong to different classes
 ![](pictures/Annotation_probabilities.png)
 
@@ -65,6 +68,7 @@ BERT-base             |  SCIBERT
 
 
 More results and examples, highlighting how the classifier performs on RCT full text, cohort study full text and on an old study can be found in this repo, in the folder "/pictures/fulltexts/"
+
 **Question Answering visualisations and examples:**
 
 Data and model high-level architecture for Question Answering task
