@@ -19,6 +19,8 @@ Fine-tuning can be carried out via the provided Google Colaboraty notebooks (NB 
 
 The Question Answering model was built on a previous version of the Transformers library. This library is constantly changing because its maintainers are very active, which means that errors during training could start showing up at any time. Therefore, all colab scripts have the option to import the library from my local fork. This means that the scripts should run/ be reproducible - just not in the latest version of the Transformers library. 
 
+A set of fine-tuned weights for this model can be obtained from the release tab of this repository.
+
 **Changes after the conference paper was submitted: Question answering**
 
 The amazing people who maintain Transformers give access to many pretrained models: https://huggingface.co/transformers/pretrained_models.html 
