@@ -1,0 +1,1 @@
+These files contain visualisations of sentence highlighting. The word document contains extracted text from some exemplary studies.
