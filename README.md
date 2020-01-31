@@ -47,7 +47,34 @@ MultilangPICObert.ipynb - fine-tune the multilingual or scibert or the Google Be
 
 **Additional graphs and figures related to the publication:**
 
+**Sentence classification visualisations and examples:**
+Examples for annotation probabilities in sentences that belong to different classes
+![](pictures/Annotation_probabilities.png)
 
+Examples for predicting and highlighting an English abstract
+![](pictures/Sentences_english.PNG)
+
+Examples for predicting and highlighting an German/Chinese abstract
+![](pictures/Sentences_german_chinese.png)
+
+Confusion matrices when assigning single class per sentence:
+
+BERT-base             |  SCIBERT
+:-------------------------:|:-------------------------:
+![](pictures/bertfrombase_confusionmatrix_heatmap.PNG)  |  ![](pictures/bertfromSCIBERT_confusionmatrix_heatmap.PNG)
+
+
+More results and examples, highlighting how the classifier performs on RCT full text, cohort study full text and on an old study can be found in this repo, in the folder "/pictures/fulltexts/"
+**Question Answering visualisations and examples:**
+
+Data and model high-level architecture for Question Answering task
+![](pictures/Data_Architecture_QA.PNG)
+
+Examples for Question answeing predictions, questions, and gold-standard answers
+![](pictures/QA_examples.PNG)
+
+Weights and attentionin fine-tunes QA model
+![](pictures/tuned_I_layer11_neurons.PNG)
 
 **Please do get in touch if you have any questions/ suggestions /comments !** 
 
