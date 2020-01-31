@@ -1,7 +1,11 @@
 # HealthINF2020
-Code and supplementary material for the HealthINF conference paper
+Code and supplementary material for the HealthINF conference paper: Data Mining in Clinical Trial Text: Transformers for Classification and Question Answering Tasks
 
-**Original data sources:**
+
+Abstract:
+> This research on data extraction methods applies recent advances in natural language processing to evidence synthesis based on medical texts. Texts of interest include abstracts of clinical trials in English and in multilingual contexts. The main focus is on information characterized via the Population, Intervention, Comparator, and Outcome (PICO) framework, but data extraction is not limited to these fields. Recent neural network architectures based on transformers show capacities for transfer learning and increased performance on downstream natural language processing tasks such as universal reading comprehension, brought forward by this architecture's use of contextualized word embeddings and self-attention mechanisms. This paper contributes to solving problems related to ambiguity in PICO sentence prediction tasks, as well as highlighting how annotations for training named entity recognition systems are used to train a high-performing, but nevertheless flexible architecture for question answering in systematic review automation. Additionally, it demonstrates how the problem of insufficient amounts of training annotations for PICO entity extraction is tackled by augmentation. All models in this paper were created with the aim to support systematic review (semi)automation. They achieve high F1 scores, and demonstrate the feasibility of applying transformer-based classification methods to support data mining in the biomedical literature.
+
+**Original training data sources:**
 
 Sentence data: https://github.com/jind11/PubMed-PICO-Detection
 
@@ -31,7 +35,7 @@ bert-large-uncased | 40% | 86.98| **80.16** | **87.72** | **82.66**
 bert-large-uncased-whole-word-masking-finetuned-squad | 40% | 86.90| 78.91 | 87.59 | 81.24
 
 
-"bert-large-uncased-whole-word-masking-finetuned-squad" is an already fine-tuned model based on bert-large. It was fine-tuned on the whole Sqad dataset, and is available as part of Transformers. I further fine-tuned it on the P-labelled data, but the final model performed marginaly worse than bert-large-uncased as base model, possibly because it has already been fine-tuned on too much different data that is not related to our target task here - see colab training file for more details incl. full scores.
+"bert-large-uncased-whole-word-masking-finetuned-squad" is an already fine-tuned model based on bert-large. It was fine-tuned on the whole Squad dataset, and is available as part of Transformers. I further fine-tuned it on the P-labelled data, but the final model performed marginaly worse than bert-large-uncased as base model, possibly because it has already been fine-tuned on too much different data that is not related to our target task here - see colab training file for more details incl. full scores.
 
 
 **Scripts for question answering:**
@@ -40,6 +44,10 @@ predictSquad.ipynb - evaluate your fine-tuned question answering model via the G
 
 **Scripts for sentence classification:**
 MultilangPICObert.ipynb - fine-tune the multilingual or scibert or the Google Bert models. Weights for the pretrained models are available from https://github.com/allenai/scibert and https://github.com/google-research/bert
+
+**Additional graphs and figures related to the publication:**
+
+
 
 **Please do get in touch if you have any questions/ suggestions /comments !** 
 
