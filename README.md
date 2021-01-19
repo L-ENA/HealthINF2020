@@ -1,5 +1,10 @@
 # HealthINF2020
-Code and supplementary material for the HealthINF conference paper: Data Mining in Clinical Trial Text: Transformers for Classification and Question Answering Tasks
+Code and supplementary material for the HealthINF conference paper: Data Mining in Clinical Trial Text: Transformers for Classification and Question Answering Tasks.
+
+Update: A more up-to-date version of this code, together with interactive plots on the CORD-19 dataset, is available below.
+
+Code: https://github.com/L-ENA/CORD19scripts
+Description of code: https://www.kaggle.com/lenaschmidt0493/qa-integrated-biomedical-ner-classifier-for-pico
 
 
 Abstract:
